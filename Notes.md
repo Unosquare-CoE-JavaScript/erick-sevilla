@@ -25,9 +25,9 @@ Even if the console/REPL (Read-Evaluate-Print-Loop) in the browser´s Developer 
  
 ### Many Faces 
 The paradigms on the programming language are oriented mostly like a guide and mold for the programmers to approach problems and solutions and how they structure their code. There are 3 typical paradigm-level categories: 
-    - Procedural (top to down linear progression code following a line of procedures) 
-    - Object Oriented (Collecting logic and data into units called classes) 
-    - Functional Programming (organize the code into functions and adaptation to those functions into variables) 
+- Procedural (top to down linear progression code following a line of procedures) 
+- Object Oriented (Collecting logic and data into units called classes) 
+- Functional Programming (organize the code into functions and adaptation to those functions into variables) 
 In that matter, JS is most definitely a multi-paradigm language because it can approach problems and take decisions for the solutions line by line using procedural code, class-oriented or even functional programming. 
  
  
