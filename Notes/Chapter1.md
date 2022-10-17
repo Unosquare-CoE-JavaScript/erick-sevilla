@@ -1,4 +1,7 @@
-## You don´t know JavaScript Yet - Getting Started
+# You don´t know JavaScript Yet - Getting Started
+
+
+## Chapter 1: WhatIsJavaScript?
 
 ### What’s With That Name? 
 JavaScript was mainly purposed to be used by Java developers and have some statements similar to it but as Jeremy Jerith said on 2009: 
@@ -54,10 +57,64 @@ Steps of the entire flow of a JS source program:
 - Finally, the JS Virtual Machine executes the program 
   
  
--Strictly Speaking 
+### Strictly Speaking 
+At 2009 JS added the *strict mode*, the benefits of it still not by default sadly but it is a very useful mode to program on JS, I is bassicly a set of rules or best practices (A guide) to optimize and clean the code, with out those rules the program will still be able to execute but without the same performance and not exploiting the maximum power of JS, that´s why it still an optional setup.
 ```
 // only whitespace and comments are allowed
 // before the use-strict pragma
 "use strict";
 // the rest of the file runs in strict mode
 ```
+
+
+
+
+## Chapter 2: Surveying JS
+
+### Values
+In JavaScript there are two main xtypes of values, the *Primitive* and *Objects*, the primitive types are the type of values set as a singule value that could be a number, string, boolean, etc.
+```
+let string = "My name is Kyle.";
+```
+On this example, the value "My name is Kyle." is a promotive sting literal usally used to represent words and sentences.
+
+Object in othe hand is a set of diferent primitive values arrange on an element that could be an "Key Object" or an "Array" for example.
+```
+let names = ["Frank","Kyle","Peter","Susan"];
+```
+On this other example we can see the set of different strings into an Array that can provide all the strings that are into it arranged on a index structure.}
+
+### Value Type Determination
+For distinguishing values, the **typeofo** perator tells you itsbuilt-in type, if primitive, or"object"otherwise:
+```
+typeof42;// "number"
+typeof"abc";// "string"
+typeoftrue;// "boolean"
+typeofundefined;// "undefined"
+typeofnull;// "object" -- oops, bug!
+typeof{"a":1};// "object"
+typeof[1,2,3];// "object"
+typeoffunctionhello(){};// "function"
+```
+
+### How We Organize in JS
+
+#### Classes
+#### Class Ingeritance
+#### Modules
+#### Classic Modules
+#### ES Modules
+
+
+## Chapter 3: Digging tothe Roots of JS
+### Iterators
+### Consuming Iterators
+### Iterables
+### Closure
+### "this" Keyword
+### Prototypes
+
+## Chapter 4: The BiggerPicture
+### Pillar 1: Scope and Closure
+### Pillar 2: Prototypes
+### Pillar 3: Types and Coercion
