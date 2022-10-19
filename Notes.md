@@ -74,28 +74,93 @@ As we mentioned before, what makes a variable a target is the assignment of a va
 Otherwise what makes a variable a soruce is the reference of an value assigned variable, let´s considere in the previous code *for (let student od students)* in which *student* is being assigned with one or meny values from *students*, so it is a target, But, *students* itserf is a soruce.
 
 ### Cheating: Runtime ScopeModifications
+All the scope is defined on the program compilation and should not be affected by runtime conditions. However there are technically still two ways to cheat and modify the program scope.
+
+It´s importan to mention that neither of this cheats should be used because both are so dangerous and confusing.
+
+The **eval(..)** function gets a string code to compile and execute on the fly during the program runtime
+
+```
+function badIdea() {
+    eval("var oops = 'Ugh!';");
+    console.log(oops);
+}
+badIdea();
+// Ugh!
+```
+
+The second cheat is the **with** keyword that essentially dynamically turns an object into a local scope-its properties are trated as identifiers in the new scope´s block
+
+```
+va badIde = { oops: "Ugh!"};
+
+with (badIdea) {
+    console.log(oops); 
+}
+// Ugh!
+```
 
 ### Lexical Scope
+We’ve demonstrated that JS’s scope is determined at compiletime; the term for this kind of scope is “lexical scope”.
 
+the keyidea of “lexical scope” is that it’s controlled entirely by the placement of functions, blocks, and variable declarations, inrelation to one another.
 
+If you place a variable declaration inside a function, thecompiler handles this declaration as it’s parsing the function,and associates that declaration with the function’s scope. Ifa variable is block-scope declared (let/const), then it’sassociated with the nearest enclosing{ .. }block, ratherthan its enclosing function (as withvar).
 
 ## Chapter 2: IllustratingLexical Scope
 
+This chapter will illustratescopewith several metaphors. Thegoal here is tothinkabout how your program is handled bythe JS engine in ways that more closely align with how the JSengine actually works.
+
 ### Marbles, and Buckets, andBubbles... Oh My!
+Imagine you come across a pile of marbles, and notice that allthe marbles are colored red, blue, or green. Let’s sort all themarbles, dropping the red ones into a red bucket, green into agreen bucket, and blue into a blue bucket. After sorting, whenyou later need a green marble, you already know the greenbucket is where to go to get it.
 
-### A Conversation Among Friends
+```
+// outer/global scope: REDvarstudents=[
+    { id:14, name:"Kyle"},
+    { id:73, name:"Suzy"},
+    { id:112, name:"Frank"},
+    { id:6, name:"Sarah"}
+    ];
+function getStudentName (studentID) {
+    // function scope: BLUE
+    for(letstudentofstudents) {
+        // loop scope: GREEN
+        if(student.id==studentID) {
+            returnstudent.name;
+        }
+    }
+}
+var nextStudent = getStudentName(73);
+console.log(nextStudent);
+// Suzy
+```
+Figure 2 helps visualize the boundaries of the scopes bydrawing colored bubbles (aka, buckets) around each
 
-### Nested Scope
 
-### Lookup Failures
-#### Undefined Mess
-#### Global... What!?
+![This is an image](./Img/Figure2.png)
 
-### Building On Metaphors
+1. Bubble 1(RED) encompasses the global scope, whichholds three identifiers/variables:students(line 1),get-StudentName(line 8), andnextStudent(line 16).
+2. Bubble 2(BLUE) encompasses the scope of the functiongetStudentName(..)(line 8), which holds just oneidentifier/variable: the parameterstudentID(line 8).
+3. Bubble 3(GREEN) encompasses the scope of thefor-loop (line 9), which holds just one identifier/variable:student(line 9).
 
-### Continue the Conversation
-
+An expression in the RED(1) bucket only has access to RED(1)marbles,notBLUE(2) or GREEN(3). An expression in theBLUE(2) bucket can reference either BLUE(2) or RED(1) mar-bles,notGREEN(3). And an expression in the GREEN(3)bucket has access to RED(1), BLUE(2), and GREEN(3) marbles.
 
 
+### Uninitialized Variables (aka, TDZ)
+```
+var studentName = "Kyle";
+{
+    console.log(studentName); 
+    // ???
+    // ..
+    let studentName = "Suzy";
+    console.log(studentName);
+    // Suzy
+}
+```
 
-## Chapter 3: The ScopeChain
+What’s going to happen with the firstconsole.log(..)statement? Iflet studentNamedidn’t hoist to the top of thescope, then the first *console.log(..)* shouldprint "Kyle", right? At that moment, it would seem, only the outerstu-dentNameexists, so that’s the variable console.log(..) should access and print.
+
+But instead, the firstconsole.log(..)throws a TDZ error,because in fact, the inner scope’s *studentNamewas* hoisted(auto-registered at the top of the scope). What **didn’t** happen(yet!) was the auto-initialization of that innerstudentName;it’s still uninitialized at that moment, hence the TDZ viola-tion!
+
+So to summarize, TDZ errors occur because *let/const* declarations **do** hoist their declarations to the top of their scopes,but unlike *var*, they defer the auto-initialization of their variables until the moment in the code’s sequencing wherethe original declaration appeared. This window of time (hint:temporal), whatever its length, is the TDZ.
